@@ -1,15 +1,17 @@
 import PropTypes from "prop-types";
+import s from "./Contact.module.css";
 
 function Contact({ id, name, number, deleteFunction }) {
   return (
-    <li>
+    <li className={s.listItem}>
       <p>{`${name}: ${number}`}</p>
       <button
+        className={s.listBtn}
         onClick={() => {
           deleteFunction(id);
         }}
       >
-        DELETE
+        Delete
       </button>
     </li>
   );

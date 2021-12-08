@@ -1,11 +1,19 @@
 import PropTypes from "prop-types";
+import s from "./Filter.module.css";
 
 function Filter({ value, updateFilterFunc }) {
   return (
-    <label>
-      Find contact by name
-      <input value={value} onChange={updateFilterFunc} />
-    </label>
+    <>
+      <label className={s.label} htmlFor="filter">
+        Find contacts by name
+      </label>
+      <input
+        className={s.input}
+        id="filter"
+        value={value}
+        onChange={updateFilterFunc}
+      />
+    </>
   );
 }
 
