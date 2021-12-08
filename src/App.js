@@ -3,7 +3,7 @@ import React, { Component } from "react";
 import ContactForm from "./ContactForm/ContactForm";
 import ContactList from "./ContactList/ContactList";
 import Filter from "./Filter/Filter";
-
+import shortid from "shortid";
 class App extends Component {
   state = {
     contacts: [
@@ -18,11 +18,11 @@ class App extends Component {
   addContact = (name, number) => {
     this.setState((prev) => {
       if (this.state.contacts.find((e) => e.name === name)) {
-        alert("no!!");
+        alert(`${name} is already in contacts.`);
         return;
       }
       return {
-        contacts: [...prev.contacts, { id: "idNew", name, number }],
+        contacts: [...prev.contacts, { id: shortid.generate(), name, number }],
       };
     });
   };
