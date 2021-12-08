@@ -1,9 +1,14 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 
 class ContactForm extends Component {
   state = {
     name: "",
     number: "",
+  };
+
+  static propTypes = {
+    addNewContact: PropTypes.func.isRequired,
   };
 
   handleChange = (e) => {

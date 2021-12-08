@@ -1,9 +1,10 @@
 import "./App.css";
 import React, { Component } from "react";
-import ContactForm from "./ContactForm/ContactForm";
-import ContactList from "./ContactList/ContactList";
-import Filter from "./Filter/Filter";
+import ContactForm from "./components/ContactForm";
+import ContactList from "./components/ContactList";
+import Filter from "./components/Filter";
 import shortid from "shortid";
+
 class App extends Component {
   state = {
     contacts: [
@@ -15,20 +16,27 @@ class App extends Component {
     filter: "",
   };
 
-  addContact = (name, number) => {
-    this.setState((prev) => {
-      if (this.state.contacts.find((e) => e.name === name)) {
+  addNewContact = (name, number) => {
+    const { contacts } = this.state;
+
+    this.setState((current) => {
+      if (contacts.find((el) => el.name === name)) {
         alert(`${name} is already in contacts.`);
         return;
       }
       return {
-        contacts: [...prev.contacts, { id: shortid.generate(), name, number }],
+        contacts: [
+          ...current.contacts,
+          { id: shortid.generate(), name, number },
+        ],
       };
     });
   };
 
   deleteContact = (id) => {
-    this.setState({ contacts: this.state.contacts.filter((e) => e.id !== id) });
+    const { contacts } = this.state;
+
+    this.setState({ contacts: contacts.filter((el) => el.id !== id) });
   };
 
   updateFilter = (e) => {
@@ -36,18 +44,28 @@ class App extends Component {
     this.setState(() => ({ filter: value }));
   };
 
-  getFiltered = () => {
-    return this.state.contacts.filter((e) => {
-      return e.name.toLowerCase().includes(this.state.filter.toLowerCase());
+  getFilteredContacs = () => {
+    const { contacts, filter } = this.state;
+
+    return contacts.filter((e) => {
+      return e.name.toLowerCase().includes(filter.toLowerCase());
     });
   };
 
   render() {
+    const contactsToShow = this.getFilteredContacs();
+    const { filter } = this.state;
+
     return (
       <>
-        <ContactForm addNewContact={this.addContact} />
-        <Filter value={this.state.filter} func={this.updateFilter} />
-        <ContactList list={this.getFiltered()} btnDelete={this.deleteContact} />
+        <h1>Phonebook</h1>
+        <ContactForm addNewContact={this.addNewContact} />
+        <h2>Contacts</h2>
+        <Filter value={filter} updateFilterFunc={this.updateFilter} />
+        <ContactList
+          contactsList={contactsToShow}
+          deleteContactBtn={this.deleteContact}
+        />
       </>
     );
   }
