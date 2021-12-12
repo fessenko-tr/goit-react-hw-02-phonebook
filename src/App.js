@@ -3,8 +3,7 @@ import React, { Component } from "react";
 import ContactForm from "./components/ContactForm";
 import ContactList from "./components/ContactList";
 import Filter from "./components/Filter";
-import shortid from "shortid";
-
+import { nanoid } from "nanoid";
 class App extends Component {
   state = {
     contacts: [
@@ -17,31 +16,29 @@ class App extends Component {
   };
 
   addNewContact = (name, number) => {
-    const { contacts } = this.state;
-
     this.setState((current) => {
+
+      const {contacts} = current;
       if (contacts.find((el) => el.name === name)) {
         alert(`${name} is already in contacts.`);
         return;
       }
       return {
         contacts: [
-          ...current.contacts,
-          { id: shortid.generate(), name, number },
+          ...contacts,
+          { id: nanoid(), name, number },
         ],
       };
     });
   };
 
   deleteContact = (id) => {
-    const { contacts } = this.state;
-
-    this.setState({ contacts: contacts.filter((el) => el.id !== id) });
+    this.setState((current)=>({ contacts: current.contacts.filter((el) => el.id !== id) }));
   };
 
   updateFilter = (e) => {
     const value = e.currentTarget.value;
-    this.setState(() => ({ filter: value }));
+    this.setState({ filter: value });
   };
 
   getFilteredContacs = () => {
