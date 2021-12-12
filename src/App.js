@@ -4,6 +4,7 @@ import ContactForm from "./components/ContactForm";
 import ContactList from "./components/ContactList";
 import Filter from "./components/Filter";
 import { nanoid } from "nanoid";
+
 class App extends Component {
   state = {
     contacts: [
@@ -17,27 +18,26 @@ class App extends Component {
 
   addNewContact = (name, number) => {
     this.setState((current) => {
-
-      const {contacts} = current;
+      const { contacts } = current;
       if (contacts.find((el) => el.name === name)) {
         alert(`${name} is already in contacts.`);
         return;
       }
       return {
-        contacts: [
-          ...contacts,
-          { id: nanoid(), name, number },
-        ],
+        contacts: [...contacts, { id: nanoid(), name, number }],
       };
     });
   };
 
   deleteContact = (id) => {
-    this.setState((current)=>({ contacts: current.contacts.filter((el) => el.id !== id) }));
+    this.setState((current) => ({
+      contacts: current.contacts.filter((el) => el.id !== id),
+    }));
   };
 
   updateFilter = (e) => {
     const value = e.currentTarget.value;
+
     this.setState({ filter: value });
   };
 
